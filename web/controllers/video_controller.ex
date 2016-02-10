@@ -71,8 +71,8 @@ defmodule HelloPhoenix.VideoController do
   end
 
   def delete(conn, %{"id" => id}) do
-    Repo.get!(Video, id)
-    Repo.delete!(Video, id)
+    video = Repo.get!(Video, id)
+    Repo.delete!(video)
     conn
     |> put_flash(:info, "Video deleted successfully.")
     |> redirect(to: video_path(conn, :index))
