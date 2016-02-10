@@ -36,6 +36,11 @@ defmodule HelloPhoenix.VideoController do
     end
   end
 
+  def show(conn, %{"id" => id}) do
+    video = Video |> Video.join |> Repo.get!(id)
+    render(conn, "show.html", video: video)
+  end
+
   defp users_list() do
     users = User |> Repo.all
     users_list(users)
