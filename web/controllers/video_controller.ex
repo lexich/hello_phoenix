@@ -1,3 +1,5 @@
+# require IEx
+
 defmodule HelloPhoenix.VideoController do
   use HelloPhoenix.Web, :controller
 
@@ -39,6 +41,41 @@ defmodule HelloPhoenix.VideoController do
   def show(conn, %{"id" => id}) do
     video = Video |> Video.join |> Repo.get!(id)
     render(conn, "show.html", video: video)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    video = Video |> Repo.get!(id)
+    changeset = Video.changeset(video)
+    render(conn, "edit.html",
+      video: video,
+      changeset: changeset,
+      users: users_list
+    )
+  end
+
+  def update(conn, %{"id" => id, "video" => video_params}) do
+    video = Repo.get!(Video, id)
+    changeset = Video.changeset(video, video_params)
+    case Repo.update(changeset) do
+      {:ok, video } ->
+        conn
+        |> put_flash(:info, "Video update successfully")
+        |> redirect(to: video_path(conn, :show, video))
+      {:error, changeset}
+        render(conn, "edit.html",
+          video: video,
+          changeset: changeset,
+          users: users_list
+        )
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    Repo.get!(Video, id)
+    Repo.delete!(Video, id)
+    conn
+    |> put_flash(:info, "Video deleted successfully.")
+    |> redirect(to: video_path(conn, :index))
   end
 
   defp users_list() do

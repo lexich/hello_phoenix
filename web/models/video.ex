@@ -12,13 +12,14 @@ defmodule HelloPhoenix.Video do
     timestamps
   end
 
-  @required_fields ~w(name approved_at description likes views)
+  @required_fields ~w(name approved_at description likes views user_id)
   @optional_fields ~w()
 
   def join(query) do
     from v in query,
       left_join: u in assoc(v, :user),
-      preload: [:user]
+      preload: [:user],
+      order_by: [v.id]
   end
 
   @doc """
