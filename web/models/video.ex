@@ -17,10 +17,8 @@ defmodule HelloPhoenix.Video do
 
   def join(query) do
     from v in query,
-      join: u in assoc(v, :user),
-      where: u.id == v.user_id,
-      preload: [user: u],
-      select: v
+      left_join: u in assoc(v, :user),
+      preload: [:user]
   end
 
   @doc """
