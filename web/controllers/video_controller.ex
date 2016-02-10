@@ -10,11 +10,6 @@ defmodule HelloPhoenix.VideoController do
 
   def index(conn, _params) do
     videos = Video |> Video.join |> Repo.all
-
-    Enum.each videos, fn video ->
-      IO.puts "#####"
-      IO.inspect video
-    end
     render(conn, "index.html", videos: videos)
   end
 
@@ -58,10 +53,14 @@ defmodule HelloPhoenix.VideoController do
     changeset = Video.changeset(video, video_params)
     case Repo.update(changeset) do
       {:ok, video } ->
+        IO.puts "OK"
+        IO.inspect video
         conn
         |> put_flash(:info, "Video update successfully")
         |> redirect(to: video_path(conn, :show, video))
       {:error, changeset}
+        IO.puts "error"
+        IO.inspect changeset
         render(conn, "edit.html",
           video: video,
           changeset: changeset,

@@ -3,7 +3,7 @@ defmodule HelloPhoenix.VideoTest do
 
   alias HelloPhoenix.Video
 
-  @valid_attrs %{approved_at: "2010-04-17 14:00:00", description: "some content", likes: 42, name: "some content", views: 42}
+  @valid_attrs %{approved_at: "2010-04-17 14:00:00", description: "some content", likes: 42, name: "some content", views: 42, user_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
