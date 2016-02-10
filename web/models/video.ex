@@ -15,6 +15,14 @@ defmodule HelloPhoenix.Video do
   @required_fields ~w(name approved_at description likes views)
   @optional_fields ~w()
 
+  def join(query) do
+    from v in query,
+      join: u in assoc(v, :user),
+      where: u.id == v.user_id,
+      preload: [user: u],
+      select: v
+  end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 

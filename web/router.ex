@@ -18,6 +18,7 @@ defmodule HelloPhoenix.Router do
 
     get "/", PageController, :index
     resources "/users", UserController
+    resources "/videos", VideoController
   end
 
   # Other scopes may use custom stacks.

@@ -1,0 +1,22 @@
+<h2>Listing of videos</h2>
+
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Likes</th>
+    <th>Views</th>
+    <th>User</th>
+  </thead>
+  <tbody>
+  <%= for video <- @videos do %>
+    <tr>
+      <td><%= video.name %></td>
+      <td><%= video.description %></td>
+      <td><%= video.likes %></td>
+      <td><%= video.views %></td>
+      <td><%= video.user.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
