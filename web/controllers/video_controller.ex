@@ -1,4 +1,4 @@
-# require IEx
+require IEx
 
 defmodule HelloPhoenix.VideoController do
   use HelloPhoenix.Web, :controller
@@ -53,14 +53,10 @@ defmodule HelloPhoenix.VideoController do
     changeset = Video.changeset(video, video_params)
     case Repo.update(changeset) do
       {:ok, video } ->
-        IO.puts "OK"
-        IO.inspect video
         conn
         |> put_flash(:info, "Video update successfully")
         |> redirect(to: video_path(conn, :show, video))
-      {:error, changeset}
-        IO.puts "error"
-        IO.inspect changeset
+      {:error, changeset} ->
         render(conn, "edit.html",
           video: video,
           changeset: changeset,
