@@ -11,6 +11,12 @@ defmodule HelloPhoenix.VideoControllerTest do
     assert html_response(conn, 200) =~ "Listing Videos"
   end
 
+  test "list all entries on index with json", %{conn: conn} do
+    conn = get conn, video_path(conn, :index), format: "json"
+    response = json_response(conn, 200)
+    assert response["data"] == []
+  end
+
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, video_path(conn, :new)
     assert html_response(conn, 200) =~ "New Video"
@@ -34,6 +40,28 @@ defmodule HelloPhoenix.VideoControllerTest do
     video = Repo.insert! %Video{ user_id: user.id }
     conn = get conn, video_path(conn, :show, video)
     assert html_response(conn, 200) =~ "Show Video"
+  end
+
+  test "shows chosen resource with json", %{conn: conn} do
+    user = Repo.insert! %User{}
+    video = Repo.insert! %Video{
+      user_id: user.id,
+      name: "some content",
+      description: "some content",
+      likes: 42,
+      views: 42
+    }
+    conn = get conn, video_path(conn, :show, video), format: "json"
+    response = json_response(conn, 200)
+    assert response["data"] === %{
+      "id" => video.id,
+      "name" => video.name,
+      "description" => video.description,
+      "likes" => video.likes,
+      "views" => video.views,
+      "user_id" => video.user_id,
+      "approved_at" => video.approved_at
+    }
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

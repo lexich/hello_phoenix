@@ -8,9 +8,17 @@ defmodule HelloPhoenix.VideoController do
 
   plug :scrub_params, "video" when action in [:create]
 
+
+  def index(conn, %{"format" => "json"}) do
+    render(conn, "index.json", videos: videos_all_join )
+  end
+
   def index(conn, _params) do
-    videos = Video |> Video.join |> Repo.all
-    render(conn, "index.html", videos: videos)
+    render(conn, "index.html", videos: videos_all_join)
+  end
+
+  defp videos_all_join do
+    Video |> Video.join |> Repo.all
   end
 
   def new(conn, _params) do
@@ -33,9 +41,16 @@ defmodule HelloPhoenix.VideoController do
     end
   end
 
+  def show(conn, %{"id" => id, "format" => "json"}) do
+    render(conn, "show.json", video: video_get_join(id))
+  end
+
   def show(conn, %{"id" => id}) do
-    video = Video |> Video.join |> Repo.get!(id)
-    render(conn, "show.html", video: video)
+    render(conn, "show.html", video: video_get_join(id))
+  end
+
+  defp video_get_join(id) do
+    Video |> Video.join |> Repo.get!(id)
   end
 
   def edit(conn, %{"id" => id}) do
