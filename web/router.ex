@@ -2,6 +2,8 @@ defmodule HelloPhoenix.Router do
   use HelloPhoenix.Web, :router
 
   pipeline :browser do
+    plug TrailingFormatPlug
+    plug JsonSplitter
     plug :accepts, ["html", "json"]
     plug :fetch_session
     plug :fetch_flash
@@ -10,6 +12,8 @@ defmodule HelloPhoenix.Router do
   end
 
   pipeline :api do
+    plug TrailingFormatPlug
+    plug JsonSplitter
     plug :accepts, ["json"]
   end
 
